@@ -1,67 +1,23 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
-import List, {
-  Item,
-  Divider,
-  Image,
-  Text,
-  Primary,
-  Secondary,
-  Meta
-} from './List';
-
-import Neanex from './images/neanex.svg';
-import Slickss from './images/slickss3.png';
-import Cronos from './images/cronos.jpg';
-import ChatLayer from './images/chatlayer.png';
-import Porphyrio from './images/porphyrio.png';
+import List, { Item, Divider, Image, Text, Primary, Secondary, Meta } from './List';
+import employers from './data/employers';
 
 const Experience = () => (
   <List twoLine>
-    <Item href="/experience/5">
-      <Image>{Porphyrio}</Image>
-      <Text>
-        <Primary>Porphyrio</Primary>
-        <Secondary>2019</Secondary>
-      </Text>
-      <Meta>chevron_right</Meta>
-    </Item>
-    <Divider />
-    <Item href="/experience/4">
-      <Image>{ChatLayer}</Image>
-      <Text>
-        <Primary>ChatLayer.ai</Primary>
-        <Secondary>2019</Secondary>
-      </Text>
-      <Meta>chevron_right</Meta>
-    </Item>
-    <Divider />
-    <Item href="/experience/1">
-      <Image>{Neanex}</Image>
-      <Text>
-        <Primary>Neanex</Primary>
-        <Secondary>2018 - 2019</Secondary>
-      </Text>
-      <Meta>chevron_right</Meta>
-    </Item>
-    <Divider />
-    <Item href="/experience/2">
-      <Image>{Slickss}</Image>
-      <Text>
-        <Primary>Slickss</Primary>
-        <Secondary>2017</Secondary>
-      </Text>
-      <Meta>chevron_right</Meta>
-    </Item>
-    <Divider />
-    <Item href="/experience/3">
-      <Image>{Cronos}</Image>
-      <Text>
-        <Primary>Cronos</Primary>
-        <Secondary>1998 - 2016</Secondary>
-      </Text>
-      <Meta>chevron_right</Meta>
-    </Item>
+    {employers.map(({ id, image, name, period }, index) => (
+      <Fragment key={index}>
+        {index !== 0 && <Divider />}
+        <Item href={`/experience/${id}`}>
+          <Image>{image}</Image>
+          <Text>
+            <Primary>{name}</Primary>
+            <Secondary>{period}</Secondary>
+          </Text>
+          <Meta>chevron_right</Meta>
+        </Item>
+      </Fragment>
+    ))}
   </List>
 );
 

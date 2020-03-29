@@ -3,29 +3,31 @@ import { Link } from 'react-router-dom';
 
 import '../node_modules/@material/list/dist/mdc.list.css';
 
-export const Item = ({ children, href = '#', active = false }) => {
+export const Item = ({
+  children,
+  href = '#',
+  active = false,
+  icon = null,
+  text = null,
+  meta = null
+}) => {
   const classNames = ['mdc-list-item'];
   if (active) {
     classNames.push('mdc-list-item--activated');
   }
   return (
-    <Link
-      className={classNames.join(' ')}
-      to={href}
-      {...(active && { 'aria-current': 'page' })}
-    >
+    <Link className={classNames.join(' ')} to={href} {...(active && { 'aria-current': 'page' })}>
+      {icon !== null && <Icon>{icon}</Icon>}
+      {text !== null && <Text>{text}</Text>}
+      {meta !== null && <Meta>{meta}</Meta>}
       {children}
     </Link>
   );
 };
 
-export const Divider = () => (
-  <li className="mdc-list-divider" role="separator"></li>
-);
+export const Divider = () => <li className="mdc-list-divider" role="separator"></li>;
 
-export const SubHeader = ({ children }) => (
-  <h3 class="mdc-list-group__subheader">{children}</h3>
-);
+export const SubHeader = ({ children }) => <h3 class="mdc-list-group__subheader">{children}</h3>;
 
 export const Icon = ({ children }) => (
   <i className="material-icons mdc-list-item__graphic" aria-hidden="true">
@@ -45,9 +47,7 @@ export const Image = ({ children }) => (
   </span>
 );
 
-export const Text = ({ children }) => (
-  <span className="mdc-list-item__text">{children}</span>
-);
+export const Text = ({ children }) => <span className="mdc-list-item__text">{children}</span>;
 
 export const Primary = ({ children }) => (
   <span className="mdc-list-item__primary-text">{children}</span>

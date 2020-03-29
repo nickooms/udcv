@@ -1,31 +1,71 @@
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { MDCDrawer } from '@material/drawer';
 import { MDCTopAppBar } from '@material/top-app-bar';
 
 import TopAppBar, { Row, Start, NavIcon, Title } from './TopAppBar';
 import Drawer from './Drawer';
-import List, { Item, Icon, Text, Meta } from './List';
+import List, { Item, Divider } from './List';
 import Home from './Home';
 import Languages from './Languages';
 import Experience from './Experience';
+import employers from './data/employers';
 
 import './App.css';
+
+const menuItems = [
+  { href: '/', icon: 'inbox', text: 'Home' },
+  { href: '/languages', icon: 'send', text: 'Languages' },
+  { href: '/experience', icon: 'send', text: 'Experience', items: employers }
+];
+
+const Menu = ({ path }) => (
+  <List>
+    {menuItems.map(({ href, icon, text, items }) => {
+      const props = { href, icon, text };
+      if (href === path) {
+        props.active = true;
+        if (items) {
+          return (
+            <Fragment key={href}>
+              <Divider />
+              <Item {...props} meta="expand_less" />
+              {items.map(({ id, name }) => {
+                const key = `${href}/${id}`;
+                const itemProps = { href: key, icon: '', text: name };
+                return <Item key={key} {...itemProps} />;
+              })}
+              <Divider />
+            </Fragment>
+          );
+        }
+        return <Item key={href} {...props} />;
+      }
+      if (items) {
+        return <Item key={href} {...props} meta="expand_more" />;
+      }
+      return <Item key={href} {...props} />;
+    })}
+  </List>
+);
 
 const routes = [
   {
     path: '/',
     exact: true,
+    sidebar: () => <Menu path="/" />,
     title: () => <Title>Curriculum Vitae</Title>,
     main: () => <Home />
   },
   {
     path: '/languages',
+    sidebar: () => <Menu path="/languages" />,
     title: () => <Title>Languages</Title>,
     main: () => <Languages />
   },
   {
     path: '/experience',
+    sidebar: () => <Menu path="/experience" />,
     title: () => <Title>Experience</Title>,
     main: () => <Experience />
   }
@@ -34,9 +74,7 @@ const routes = [
 const App = () => {
   useEffect(() => {
     const drawer = MDCDrawer.attachTo(document.querySelector('.mdc-drawer'));
-    const topAppBar = MDCTopAppBar.attachTo(
-      document.querySelector('.mdc-top-app-bar')
-    );
+    const topAppBar = MDCTopAppBar.attachTo(document.querySelector('.mdc-top-app-bar'));
     topAppBar.setScrollTarget(document.querySelector('.main-content'));
     topAppBar.listen('MDCTopAppBar:nav', () => {
       drawer.open = !drawer.open;
@@ -47,21 +85,16 @@ const App = () => {
     <Router>
       <>
         <Drawer>
-          <List>
-            <Item href="/" active>
-              <Icon>inbox</Icon>
-              <Text>Home</Text>
-            </Item>
-            <Item href="/languages">
-              <Icon>send</Icon>
-              <Text>Languages</Text>
-            </Item>
-            <Item href="/experience">
-              <Icon>send</Icon>
-              <Text>Experience</Text>
-              <Meta>expand_more</Meta>
-            </Item>
-          </List>
+          <Switch>
+            {routes.map((route, index) => (
+              <Route
+                key={index}
+                path={route.path}
+                exact={route.exact}
+                children={<route.sidebar />}
+              />
+            ))}
+          </Switch>
         </Drawer>
 
         <div className="mdc-drawer-app-content">

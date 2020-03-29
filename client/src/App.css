@@ -1,0 +1,45 @@
+:root {
+  /* --mdc-theme-primary: #6200ee; */
+  --mdc-theme-primary: #37474f;
+  --mdc-theme-on-primary: #ffffff;
+  --mdc-theme-secondary: #00b8d4;
+  --mdc-theme-on-secondary: #000000;
+  --mdc-theme-error: #b00020;
+  --mdc-theme-on-error: #ffffff;
+  --mdc-theme-surface: #ffffff;
+  --mdc-theme-on-surface: #000000;
+  --mdc-theme-background: #ffffff;
+}
+
+body {
+  height: 100vh;
+}
+
+main {
+  /* background-color: #eeeeee; */
+  height: 100vh;
+}
+/* body {
+  display: flex;
+  height: 100vh;
+}
+
+.mdc-drawer-app-content {
+  flex: auto;
+  overflow: auto;
+  position: relative;
+}
+
+.main-content {
+  overflow: auto;
+  height: 100%;
+}
+
+.app-bar {
+  position: absolute;
+}
+
+.mdc-top-app-bar {
+  z-index: 7;
+}
+*/

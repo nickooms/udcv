@@ -8,6 +8,7 @@ export const Item = ({
   href = '#',
   active = false,
   icon = null,
+  faIcon = null,
   text = null,
   meta = null
 }) => {
@@ -18,6 +19,7 @@ export const Item = ({
   return (
     <Link className={classNames.join(' ')} to={href} {...(active && { 'aria-current': 'page' })}>
       {icon !== null && <Icon>{icon}</Icon>}
+      {faIcon !== null && <FAIcon>{faIcon}</FAIcon>}
       {text !== null && <Text>{text}</Text>}
       {meta !== null && <Meta>{meta}</Meta>}
       {children}
@@ -33,6 +35,14 @@ export const Icon = ({ children }) => (
   <i className="material-icons mdc-list-item__graphic" aria-hidden="true">
     {children}
   </i>
+);
+
+export const FAIcon = ({ children }) => (
+  <i
+    className={`${children} mdc-list-item__graphic`}
+    style={{ fontSize: '1.5em' }}
+    aria-hidden="true"
+  ></i>
 );
 
 export const Meta = ({ children }) => (

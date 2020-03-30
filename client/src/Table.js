@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Slider from './Slider';
+
 import '../node_modules/@material/data-table/dist/mdc.data-table.css';
 
 const camelCase = name =>
@@ -9,20 +11,28 @@ const camelCase = name =>
 
 export const Column = ({
   numeric = false,
+  slider = false,
   children,
   field = camelCase(children)
 }) => (
-  <th className="mdc-data-table__header-cell" role="columnheader" scope="col">
+  <th
+    className="mdc-data-table__header-cell"
+    role="columnheader"
+    scope="col"
+    {...(slider && { style: { width: '300px' } })}
+  >
     {children}
   </th>
 );
 
-const Cell = ({ row, field, numeric }) => {
+const Cell = ({ row, field, numeric, slider }) => {
   const classNames = ['mdc-data-table__cell'];
   if (numeric) {
     classNames.push('mdc-data-table__cell--numeric');
   }
-  return <td className={classNames.join(' ')}>{row[field]}</td>;
+  const value = row[field];
+  const content = slider ? <Slider value={value} /> : value;
+  return <td className={classNames.join(' ')}>{content}</td>;
 };
 
 const Table = ({ children, data = [] }) => (
@@ -34,24 +44,18 @@ const Table = ({ children, data = [] }) => (
       <tbody className="mdc-data-table__content">
         {data.map((row, index) => {
           const id = `u${index + 3}`;
-          const columns = children.map(
-            ({ props: { numeric, field } }, colIndex) => (
-              <Cell
-                key={`column${colIndex}`}
-                row={row}
-                numeric={numeric}
-                field={field}
-                {...(colIndex === 0 && { id })}
-              />
-            )
-          );
+          const columns = children.map(({ props: { numeric, slider, field } }, colIndex) => (
+            <Cell
+              key={`column${colIndex}`}
+              row={row}
+              numeric={numeric}
+              slider={slider}
+              field={field}
+              {...(colIndex === 0 && { id })}
+            />
+          ));
           return (
-            <tr
-              key={id}
-              data-row-id={id}
-              className="mdc-data-table__row"
-              aria-selected="false"
-            >
+            <tr key={id} data-row-id={id} className="mdc-data-table__row" aria-selected="false">
               {columns}
             </tr>
           );

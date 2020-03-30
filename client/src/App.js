@@ -7,16 +7,19 @@ import TopAppBar, { Row, Start, NavIcon, Title } from './TopAppBar';
 import Drawer from './Drawer';
 import List, { Item, Divider } from './List';
 import Home from './Home';
+// import ContactInfo from './ContactInfo';
 import Languages from './Languages';
 import Experience from './Experience';
-import employers from './data/employers';
+import workExperience from './data/work-experience';
 
 import './App.css';
+import ContactInfo from './ContactInfo';
 
 const menuItems = [
   { href: '/', icon: 'inbox', text: 'Home' },
+  { href: '/contact-info', icon: 'send', text: 'Contact Info' },
   { href: '/languages', icon: 'send', text: 'Languages' },
-  { href: '/experience', icon: 'send', text: 'Experience', items: employers }
+  { href: '/experience', icon: 'send', text: 'Work Experience', items: workExperience }
 ];
 
 const Menu = ({ path }) => (
@@ -58,6 +61,12 @@ const routes = [
     main: () => <Home />
   },
   {
+    path: '/contact-info',
+    sidebar: () => <Menu path="/contact-info" />,
+    title: () => <Title>Contact Info</Title>,
+    main: () => <ContactInfo />
+  },
+  {
     path: '/languages',
     sidebar: () => <Menu path="/languages" />,
     title: () => <Title>Languages</Title>,
@@ -66,7 +75,7 @@ const routes = [
   {
     path: '/experience',
     sidebar: () => <Menu path="/experience" />,
-    title: () => <Title>Experience</Title>,
+    title: () => <Title>Work Experience</Title>,
     main: () => <Experience />
   }
 ];

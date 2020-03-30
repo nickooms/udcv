@@ -17,7 +17,7 @@ const ContactInfo = () => (
       <Text>
         <Primary>Cell Phone</Primary>
         <Secondary>
-          <a href="tel:0032470033921">+32 470 03 39 21</a>
+          <a href="tel:+32470033921">+32 470 03 39 21</a>
         </Secondary>
       </Text>
     </Item>
